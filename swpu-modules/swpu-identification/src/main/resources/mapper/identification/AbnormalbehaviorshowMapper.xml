@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.identification.mapper.AbnormalbehaviorshowMapper">
+    
+    <resultMap type="Abnormalbehaviorshow" id="AbnormalbehaviorshowResult">
+        <result property="identificationId"    column="identification_id"    />
+        <result property="dataId"    column="data_id"    />
+        <result property="identificationTime"    column="identification_time"    />
+        <result property="identificationResult"    column="identification_result"    />
+        <result property="peopleId"    column="people_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAbnormalbehaviorshowVo">
+        select identification_id, data_id, identification_time, identification_result, people_id, remark from abnormalbehaviorshow
+    </sql>
+
+    <select id="selectAbnormalbehaviorshowList" parameterType="Abnormalbehaviorshow" resultMap="AbnormalbehaviorshowResult">
+        <include refid="selectAbnormalbehaviorshowVo"/>
+        <where>  
+            <if test="dataId != null "> and data_id = #{dataId}</if>
+            <if test="identificationTime != null "> and identification_time = #{identificationTime}</if>
+            <if test="identificationResult != null "> and identification_result = #{identificationResult}</if>
+            <if test="peopleId != null "> and people_id = #{peopleId}</if>
+        </where>
+    </select>
+    
+    <select id="selectAbnormalbehaviorshowByIdentificationId" parameterType="Integer" resultMap="AbnormalbehaviorshowResult">
+        <include refid="selectAbnormalbehaviorshowVo"/>
+        where identification_id = #{identificationId}
+    </select>
+        
+    <insert id="insertAbnormalbehaviorshow" parameterType="Abnormalbehaviorshow" useGeneratedKeys="true" keyProperty="identificationId">
+        insert into abnormalbehaviorshow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dataId != null">data_id,</if>
+            <if test="identificationTime != null">identification_time,</if>
+            <if test="identificationResult != null">identification_result,</if>
+            <if test="peopleId != null">people_id,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dataId != null">#{dataId},</if>
+            <if test="identificationTime != null">#{identificationTime},</if>
+            <if test="identificationResult != null">#{identificationResult},</if>
+            <if test="peopleId != null">#{peopleId},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAbnormalbehaviorshow" parameterType="Abnormalbehaviorshow">
+        update abnormalbehaviorshow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dataId != null">data_id = #{dataId},</if>
+            <if test="identificationTime != null">identification_time = #{identificationTime},</if>
+            <if test="identificationResult != null">identification_result = #{identificationResult},</if>
+            <if test="peopleId != null">people_id = #{peopleId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where identification_id = #{identificationId}
+    </update>
+
+    <delete id="deleteAbnormalbehaviorshowByIdentificationId" parameterType="Integer">
+        delete from abnormalbehaviorshow where identification_id = #{identificationId}
+    </delete>
+
+    <delete id="deleteAbnormalbehaviorshowByIdentificationIds" parameterType="String">
+        delete from abnormalbehaviorshow where identification_id in 
+        <foreach item="identificationId" collection="array" open="(" separator="," close=")">
+            #{identificationId}
+        </foreach>
+    </delete>
+</mapper>

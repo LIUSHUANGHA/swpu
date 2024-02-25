@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.identification.mapper.AbnormalbehavioridentificationMapper">
+    
+    <resultMap type="Abnormalbehavioridentification" id="AbnormalbehavioridentificationResult">
+        <result property="identificationId"    column="identification_id"    />
+        <result property="dataId"    column="data_id"    />
+        <result property="identificationProcess"    column="identification_process"    />
+        <result property="peopleProcess"    column="people_process"    />
+        <result property="identificationTime"    column="identification_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAbnormalbehavioridentificationVo">
+        select identification_id, data_id, identification_process, people_process, identification_time, remark from abnormalbehavioridentification
+    </sql>
+
+    <select id="selectAbnormalbehavioridentificationList" parameterType="Abnormalbehavioridentification" resultMap="AbnormalbehavioridentificationResult">
+        <include refid="selectAbnormalbehavioridentificationVo"/>
+        <where>  
+            <if test="dataId != null "> and data_id = #{dataId}</if>
+            <if test="identificationProcess != null "> and identification_process = #{identificationProcess}</if>
+            <if test="peopleProcess != null "> and people_process = #{peopleProcess}</if>
+            <if test="identificationTime != null "> and identification_time = #{identificationTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAbnormalbehavioridentificationByIdentificationId" parameterType="Integer" resultMap="AbnormalbehavioridentificationResult">
+        <include refid="selectAbnormalbehavioridentificationVo"/>
+        where identification_id = #{identificationId}
+    </select>
+        
+    <insert id="insertAbnormalbehavioridentification" parameterType="Abnormalbehavioridentification" useGeneratedKeys="true" keyProperty="identificationId">
+        insert into abnormalbehavioridentification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dataId != null">data_id,</if>
+            <if test="identificationProcess != null">identification_process,</if>
+            <if test="peopleProcess != null">people_process,</if>
+            <if test="identificationTime != null">identification_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dataId != null">#{dataId},</if>
+            <if test="identificationProcess != null">#{identificationProcess},</if>
+            <if test="peopleProcess != null">#{peopleProcess},</if>
+            <if test="identificationTime != null">#{identificationTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAbnormalbehavioridentification" parameterType="Abnormalbehavioridentification">
+        update abnormalbehavioridentification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dataId != null">data_id = #{dataId},</if>
+            <if test="identificationProcess != null">identification_process = #{identificationProcess},</if>
+            <if test="peopleProcess != null">people_process = #{peopleProcess},</if>
+            <if test="identificationTime != null">identification_time = #{identificationTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where identification_id = #{identificationId}
+    </update>
+
+    <delete id="deleteAbnormalbehavioridentificationByIdentificationId" parameterType="Integer">
+        delete from abnormalbehavioridentification where identification_id = #{identificationId}
+    </delete>
+
+    <delete id="deleteAbnormalbehavioridentificationByIdentificationIds" parameterType="String">
+        delete from abnormalbehavioridentification where identification_id in 
+        <foreach item="identificationId" collection="array" open="(" separator="," close=")">
+            #{identificationId}
+        </foreach>
+    </delete>
+</mapper>

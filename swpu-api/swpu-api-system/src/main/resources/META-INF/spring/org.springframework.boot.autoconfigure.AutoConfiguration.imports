@@ -1,0 +1,3 @@
+com.swpu.system.api.factory.RemoteUserFallbackFactory
+com.swpu.system.api.factory.RemoteLogFallbackFactory
+com.swpu.system.api.factory.RemoteFileFallbackFactory

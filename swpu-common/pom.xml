@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.swpu</groupId>
+        <artifactId>swpu</artifactId>
+        <version>3.6.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>swpu-common-log</module>
+        <module>swpu-common-core</module>
+        <module>swpu-common-redis</module>
+        <module>swpu-common-seata</module>
+        <module>swpu-common-swagger</module>
+        <module>swpu-common-security</module>
+        <module>swpu-common-datascope</module>
+        <module>swpu-common-datasource</module>
+    </modules>
+
+    <artifactId>swpu-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        swpu-common通用模块
+    </description>
+
+</project>

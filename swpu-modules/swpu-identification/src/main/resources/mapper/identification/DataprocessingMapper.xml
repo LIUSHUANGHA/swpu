@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.identification.mapper.DataprocessingMapper">
+    
+    <resultMap type="Dataprocessing" id="DataprocessingResult">
+        <result property="dataId"    column="data_id"    />
+        <result property="cameraId"    column="camera_id"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="processingStatus"    column="processing_status"    />
+        <result property="processingResult"    column="processing_result"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDataprocessingVo">
+        select data_id, camera_id, start_time, end_time, processing_status, processing_result, remark from dataprocessing
+    </sql>
+
+    <select id="selectDataprocessingList" parameterType="Dataprocessing" resultMap="DataprocessingResult">
+        <include refid="selectDataprocessingVo"/>
+        <where>  
+            <if test="cameraId != null "> and camera_id = #{cameraId}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="processingStatus != null "> and processing_status = #{processingStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataprocessingByDataId" parameterType="Integer" resultMap="DataprocessingResult">
+        <include refid="selectDataprocessingVo"/>
+        where data_id = #{dataId}
+    </select>
+        
+    <insert id="insertDataprocessing" parameterType="Dataprocessing" useGeneratedKeys="true" keyProperty="dataId">
+        insert into dataprocessing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cameraId != null">camera_id,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="processingStatus != null">processing_status,</if>
+            <if test="processingResult != null">processing_result,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cameraId != null">#{cameraId},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="processingStatus != null">#{processingStatus},</if>
+            <if test="processingResult != null">#{processingResult},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataprocessing" parameterType="Dataprocessing">
+        update dataprocessing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cameraId != null">camera_id = #{cameraId},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="processingStatus != null">processing_status = #{processingStatus},</if>
+            <if test="processingResult != null">processing_result = #{processingResult},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where data_id = #{dataId}
+    </update>
+
+    <delete id="deleteDataprocessingByDataId" parameterType="Integer">
+        delete from dataprocessing where data_id = #{dataId}
+    </delete>
+
+    <delete id="deleteDataprocessingByDataIds" parameterType="String">
+        delete from dataprocessing where data_id in 
+        <foreach item="dataId" collection="array" open="(" separator="," close=")">
+            #{dataId}
+        </foreach>
+    </delete>
+</mapper>

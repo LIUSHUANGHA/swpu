@@ -1,0 +1,2 @@
+com.swpu.common.log.service.AsyncLogService
+com.swpu.common.log.aspect.LogAspect

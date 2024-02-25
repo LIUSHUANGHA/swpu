@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.swpu</groupId>
+        <artifactId>swpu</artifactId>
+        <version>3.6.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>swpu-system</module>
+        <module>swpu-gen</module>
+        <module>swpu-job</module>
+        <module>swpu-file</module>
+        <module>swpu-identification</module>
+        <module>swpu-reportAndRecommendation</module>
+        <module>swpu-assessmentAndAlerting</module>
+    </modules>
+
+    <artifactId>swpu-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        swpu-modules业务模块
+    </description>
+
+</project>

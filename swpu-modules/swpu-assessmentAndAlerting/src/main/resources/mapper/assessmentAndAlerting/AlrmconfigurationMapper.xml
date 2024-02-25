@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.assessmentAndAlerting.mapper.AlrmconfigurationMapper">
+    
+    <resultMap type="Alrmconfiguration" id="AlrmconfigurationResult">
+        <result property="alarmId"    column="alarm_id"    />
+        <result property="alrmLevel"    column="alrm_level"    />
+        <result property="triggerConditions"    column="trigger_conditions"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAlrmconfigurationVo">
+        select alarm_id, alrm_level, trigger_conditions, remark from alrmconfiguration
+    </sql>
+
+    <select id="selectAlrmconfigurationList" parameterType="Alrmconfiguration" resultMap="AlrmconfigurationResult">
+        <include refid="selectAlrmconfigurationVo"/>
+        <where>  
+            <if test="alrmLevel != null "> and alrm_level = #{alrmLevel}</if>
+            <if test="triggerConditions != null  and triggerConditions != ''"> and trigger_conditions = #{triggerConditions}</if>
+        </where>
+    </select>
+    
+    <select id="selectAlrmconfigurationByAlarmId" parameterType="Long" resultMap="AlrmconfigurationResult">
+        <include refid="selectAlrmconfigurationVo"/>
+        where alarm_id = #{alarmId}
+    </select>
+        
+    <insert id="insertAlrmconfiguration" parameterType="Alrmconfiguration" useGeneratedKeys="true" keyProperty="alarmId">
+        insert into alrmconfiguration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="alrmLevel != null">alrm_level,</if>
+            <if test="triggerConditions != null">trigger_conditions,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="alrmLevel != null">#{alrmLevel},</if>
+            <if test="triggerConditions != null">#{triggerConditions},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAlrmconfiguration" parameterType="Alrmconfiguration">
+        update alrmconfiguration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="alrmLevel != null">alrm_level = #{alrmLevel},</if>
+            <if test="triggerConditions != null">trigger_conditions = #{triggerConditions},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where alarm_id = #{alarmId}
+    </update>
+
+    <delete id="deleteAlrmconfigurationByAlarmId" parameterType="Long">
+        delete from alrmconfiguration where alarm_id = #{alarmId}
+    </delete>
+
+    <delete id="deleteAlrmconfigurationByAlarmIds" parameterType="String">
+        delete from alrmconfiguration where alarm_id in 
+        <foreach item="alarmId" collection="array" open="(" separator="," close=")">
+            #{alarmId}
+        </foreach>
+    </delete>
+</mapper>

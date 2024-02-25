@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpu.identification.mapper.CameraaccessMapper">
+    
+    <resultMap type="Cameraaccess" id="CameraaccessResult">
+        <result property="cameraId"    column="camera_id"    />
+        <result property="cameraName"    column="camera_name"    />
+        <result property="installLocation"    column="install_location"    />
+        <result property="ipLocation"    column="ip_location"    />
+        <result property="portNumber"    column="port_number"    />
+        <result property="connectionStatus"    column="connection_status"    />
+        <result property="lastUpdated"    column="last_updated"    />
+    </resultMap>
+
+    <sql id="selectCameraaccessVo">
+        select camera_id, camera_name, install_location, ip_location, port_number, connection_status, last_updated from cameraaccess
+    </sql>
+
+    <select id="selectCameraaccessList" parameterType="Cameraaccess" resultMap="CameraaccessResult">
+        <include refid="selectCameraaccessVo"/>
+        <where>  
+            <if test="cameraName != null  and cameraName != ''"> and camera_name like concat('%', #{cameraName}, '%')</if>
+            <if test="installLocation != null  and installLocation != ''"> and install_location like concat('%', #{installLocation}, '%')</if>
+            <if test="connectionStatus != null "> and connection_status = #{connectionStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectCameraaccessByCameraId" parameterType="Integer" resultMap="CameraaccessResult">
+        <include refid="selectCameraaccessVo"/>
+        where camera_id = #{cameraId}
+    </select>
+        
+    <insert id="insertCameraaccess" parameterType="Cameraaccess" useGeneratedKeys="true" keyProperty="cameraId">
+        insert into cameraaccess
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cameraName != null">camera_name,</if>
+            <if test="installLocation != null">install_location,</if>
+            <if test="ipLocation != null">ip_location,</if>
+            <if test="portNumber != null">port_number,</if>
+            <if test="connectionStatus != null">connection_status,</if>
+            <if test="lastUpdated != null">last_updated,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cameraName != null">#{cameraName},</if>
+            <if test="installLocation != null">#{installLocation},</if>
+            <if test="ipLocation != null">#{ipLocation},</if>
+            <if test="portNumber != null">#{portNumber},</if>
+            <if test="connectionStatus != null">#{connectionStatus},</if>
+            <if test="lastUpdated != null">#{lastUpdated},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCameraaccess" parameterType="Cameraaccess">
+        update cameraaccess
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cameraName != null">camera_name = #{cameraName},</if>
+            <if test="installLocation != null">install_location = #{installLocation},</if>
+            <if test="ipLocation != null">ip_location = #{ipLocation},</if>
+            <if test="portNumber != null">port_number = #{portNumber},</if>
+            <if test="connectionStatus != null">connection_status = #{connectionStatus},</if>
+            <if test="lastUpdated != null">last_updated = #{lastUpdated},</if>
+        </trim>
+        where camera_id = #{cameraId}
+    </update>
+
+    <delete id="deleteCameraaccessByCameraId" parameterType="Integer">
+        delete from cameraaccess where camera_id = #{cameraId}
+    </delete>
+
+    <delete id="deleteCameraaccessByCameraIds" parameterType="String">
+        delete from cameraaccess where camera_id in 
+        <foreach item="cameraId" collection="array" open="(" separator="," close=")">
+            #{cameraId}
+        </foreach>
+    </delete>
+</mapper>
